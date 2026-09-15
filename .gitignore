@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# IDE
+.idea/
+.vscode/
+
+# AI tools
+.agents/
+.claude/
+
+# macOS
+.DS_Store
+
+# Environment
+.env
