@@ -1,116 +1,32 @@
-DataWar — Customer Analytics Dashboard
+# **DataWar — Customer Analytics Dashboard**
 
 Интерактивный дашборд для анализа клиентских данных.
 
-Проект загружает данные о клиентах в MongoDB и отображает их в виде KPI, фильтров, графиков и таблицы с помощью Streamlit.
+Проект загружает данные о клиентах из CSV в MongoDB и отображает их в удобном веб-интерфейсе на Streamlit.
 
-Возможности
+## **Возможности**
 
-* 📊 количество клиентов и основные показатели;
-* 👤 средний возраст клиентов;
-* 💰 средний и суммарный CAC;
-* 🌍 анализ клиентов по странам и регионам;
-* 👥 распределение по сегментам и полу;
-* 📈 графики по возрасту и CAC;
-* 🔎 фильтрация данных;
-* 📋 просмотр таблицы клиентов.
+- 📊 количество клиентов
+- 👤 средний возраст клиентов
+- 💰 средний CAC
+- 💵 суммарный CAC
+- 🌍 анализ клиентов по странам и регионам
+- 👥 распределение по сегментам и полу
+- 📈 графики по возрасту и CAC
+- 🔎 фильтры по стране, сегменту, региону, полу и возрасту
+- 📋 таблица с данными клиентов
 
-Стек
+## **Стек**
 
-* Python
-* Streamlit — интерфейс дашборда
-* MongoDB — хранение данных
-* Docker — запуск MongoDB
-* Pandas — обработка данных
+- **Python**
+- **Streamlit** — веб-интерфейс и визуализация
+- **MongoDB** — хранение данных
+- **Docker** — запуск MongoDB
+- **Pandas** — обработка данных
 
-Структура проекта
+## **Как это работает**
 
-DataWar/
-├── app.py                 # Streamlit-приложение
-├── load_to_mongo.py       # загрузка CSV в MongoDB
-├── customer_master.csv    # исходный датасет
-├── requirements.txt       # зависимости Python
-├── README.md
-└── .gitignore
-
-Как запустить
-
-1. Клонировать репозиторий
-
-git clone https://github.com/DimaKuzin05/DataWar.git
-cd DataWar
-
-2. Установить зависимости
-
-Рекомендуется использовать виртуальное окружение:
-
-python3 -m venv .venv
-source .venv/bin/activate
-
-Установить зависимости:
-
-pip install -r requirements.txt
-
-3. Запустить MongoDB
-
-MongoDB используется в Docker-контейнере.
-
-Если контейнер уже создан:
-
-docker start customer-mongo
-
-Если контейнера ещё нет:
-
-docker run -d \
-  --name customer-mongo \
-  -p 27017:27017 \
-  mongo
-
-4. Загрузить данные
-
-python3 load_to_mongo.py
-
-Скрипт загружает данные из customer_master.csv в MongoDB.
-
-По умолчанию используются:
-
-MongoDB:    mongodb://localhost:27017
-Database:   dataset_zalupa
-Collection: customers
-
-5. Запустить дашборд
-
-python3 -m streamlit run app.py
-
-После запуска приложение будет доступно по адресу:
-
-http://localhost:8501
-
-Настройка MongoDB
-
-Параметры подключения можно изменить через переменные окружения:
-
-export MONGO_URI="mongodb://localhost:27017"
-export MONGO_DB="dataset_zalupa"
-export MONGO_COLLECTION="customers"
-
-После этого запустить приложение:
-
-python3 -m streamlit run app.py
-
-Дашборд
-
-Основная информация отображается в виде:
-
-* KPI-карточек;
-* фильтров;
-* графиков;
-* таблицы клиентов.
-
-Фильтры позволяют изменять отображаемые данные по стране, сегменту, региону, полу и возрасту.
-
-Архитектура
-
+```text
 customer_master.csv
         │
         ▼
@@ -126,23 +42,157 @@ load_to_mongo.py
     Streamlit
         │
         ▼
-  Web Dashboard
+   Web Dashboard
+```
 
-Используемые технологии
+Сначала данные из `customer_master.csv` загружаются в MongoDB с помощью `load_to_mongo.py`.
 
-Технология	Назначение
-Python	основная логика проекта
-Streamlit	веб-интерфейс
-MongoDB	хранение данных
-Docker	запуск MongoDB
-Pandas	работа с данными
+После этого Streamlit-приложение получает данные непосредственно из MongoDB и отображает их на дашборде.
 
-Статус проекта
+## **Структура проекта**
 
-Проект выполнен в учебных целях и может использоваться как пример простого аналитического дашборда с хранением данных в MongoDB.
+```text
+DataWar/
+│
+├── app.py                 # Streamlit-приложение
+├── load_to_mongo.py       # загрузка данных в MongoDB
+├── customer_master.csv    # исходный датасет
+├── requirements.txt       # зависимости Python
+├── README.md
+└── .gitignore
+```
 
-Автор
+## **Запуск проекта**
 
-Dima Kuzin
+### **1. Клонирование репозитория**
 
-GitHub: DimaKuzin05
+```bash
+git clone https://github.com/DimaKuzin05/DataWar.git
+cd DataWar
+```
+
+### **2. Создание виртуального окружения**
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+Для Windows:
+
+```bash
+.venv\Scripts\activate
+```
+
+### **3. Установка зависимостей**
+
+```bash
+pip install -r requirements.txt
+```
+
+### **4. Запуск MongoDB**
+
+MongoDB запускается в Docker.
+
+Если контейнер `customer-mongo` уже создан:
+
+```bash
+docker start customer-mongo
+```
+
+Если контейнер создаётся впервые:
+
+```bash
+docker run -d \
+  --name customer-mongo \
+  -p 27017:27017 \
+  mongo
+```
+
+### **5. Загрузка данных**
+
+```bash
+python3 load_to_mongo.py
+```
+
+После выполнения скрипта данные из `customer_master.csv` будут загружены в MongoDB.
+
+### **6. Запуск Streamlit**
+
+```bash
+python3 -m streamlit run app.py
+```
+
+После запуска дашборд будет доступен по адресу:
+
+```text
+http://localhost:8501
+```
+
+## **MongoDB**
+
+По умолчанию используется:
+
+```text
+URI:        mongodb://localhost:27017
+Database:   dataset_zalupa
+Collection: customers
+```
+
+Параметры подключения можно изменить через переменные окружения:
+
+```bash
+export MONGO_URI="mongodb://localhost:27017"
+export MONGO_DB="dataset_zalupa"
+export MONGO_COLLECTION="customers"
+```
+
+## **Дашборд**
+
+На главной странице отображаются основные показатели клиентов:
+
+- общее количество клиентов;
+- средний возраст;
+- средний CAC;
+- суммарный CAC.
+
+Также доступны фильтры:
+
+- страна;
+- сегмент;
+- регион;
+- пол;
+- возраст.
+
+После применения фильтров графики и таблица обновляются автоматически.
+
+## **Графики**
+
+Дашборд содержит визуализации:
+
+- распределение клиентов по сегментам;
+- распределение по странам;
+- распределение по полу;
+- распределение по возрасту;
+- анализ CAC.
+
+## **Данные**
+
+В проекте используется датасет с информацией о **25 000 клиентах**.
+
+Исходные данные находятся в:
+
+```text
+customer_master.csv
+```
+
+После загрузки приложение работает с данными из MongoDB, а не читает CSV напрямую.
+
+## **Требования**
+
+Для запуска необходимы:
+
+- Python 3
+- Docker
+- MongoDB
+- зависимости из `requirements.txt`
